@@ -1,17 +1,17 @@
-const ZODIAC_SIGNS = [
-  {sign: 'Козерог', endMonth: 1, endDay: 19},
-  {sign: 'Водолей', endMonth: 2, endDay: 18},
-  {sign: 'Рыбы', endMonth: 3, endDay: 20},
-  {sign: 'Овен', endMonth: 4, endDay: 19},
-  {sign: 'Телец', endMonth: 5, endDay: 20},
-  {sign: 'Близнецы', endMonth: 6, endDay: 20},
-  {sign: 'Рак', endMonth: 7, endDay: 22},
-  {sign: 'Лев', endMonth: 8, endDay: 22},
-  {sign: 'Дева', endMonth: 9, endDay: 22},
-  {sign: 'Весы', endMonth: 10, endDay: 22},
-  {sign: 'Скорпион', endMonth: 11, endDay: 21},
-  {sign: 'Стрелец', endMonth: 12, endDay: 21},
-  {sign: 'Козерог', endMonth: 12, endDay: 31},
+const ZODIAC_CUTOFFS = [
+  {cutoff: 119, sign: 'Козерог'},
+  {cutoff: 218, sign: 'Водолей'},
+  {cutoff: 320, sign: 'Рыбы'},
+  {cutoff: 419, sign: 'Овен'},
+  {cutoff: 520, sign: 'Телец'},
+  {cutoff: 620, sign: 'Близнецы'},
+  {cutoff: 722, sign: 'Рак'},
+  {cutoff: 822, sign: 'Лев'},
+  {cutoff: 922, sign: 'Дева'},
+  {cutoff: 1022, sign: 'Весы'},
+  {cutoff: 1121, sign: 'Скорпион'},
+  {cutoff: 1221, sign: 'Стрелец'},
+  {cutoff: 1231, sign: 'Козерог'},
 ];
 
 export function getZodiacSign(date) {
@@ -23,15 +23,9 @@ export function getZodiacSign(date) {
 
   const month = d.getMonth() + 1;
   const day = d.getDate();
+  const monthDay = month * 100 + day;
 
-  for (const {sign, endMonth, endDay} of ZODIAC_SIGNS) {
-    if (month === endMonth && day <= endDay) {
-      return sign;
-    }
-    if (month === endMonth - 1 && day > endDay) {
-      return sign;
-    }
-  }
+  const match = ZODIAC_CUTOFFS.find((entry) => monthDay <= entry.cutoff);
 
-  return ZODIAC_SIGNS[0].sign;
+  return match.sign;
 }

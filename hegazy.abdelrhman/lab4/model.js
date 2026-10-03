@@ -62,15 +62,20 @@ export function findGamesByPlatform(games, platform) {
 }
 
 export function groupGamesByPlatformCount(games) {
-  const result = {};
+  const groups = new Map();
+
   for (const game of games) {
-    const key = game.platforms.length;
-    if (!result[key]) {
-      result[key] = [];
+    const platformCount = game.platforms.length;
+    if (!groups.has(platformCount)) {
+      groups.set(platformCount, []);
     }
-    result[key].push(game);
+    groups.get(platformCount).push(game);
   }
-  return result;
+
+  return [...groups.entries()].map(([platformCount, groupedGames]) => ({
+    platformCount,
+    games: groupedGames,
+  }));
 }
 
 export function findGamesReleasedAfter(games, year) {
